@@ -15,6 +15,14 @@ app.get("/interests", (req, res) => {
   });
 });
 
+app.get("/suggestions", (req, res) => {
+  const page = req.query.page || 0;
+
+  queries.selectAllSuggestions(page).then(data => {
+    res.send(data);
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });

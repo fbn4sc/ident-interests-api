@@ -20,5 +20,20 @@ module.exports = {
         }
       );
     });
+  },
+
+  selectAllSuggestions: page => {
+    return new Promise((resolve, reject) => {
+      const rowsLimit = 30;
+
+      connection.query(
+        `SELECT * FROM interest_suggestion LIMIT ${page *
+          rowsLimit}, ${rowsLimit}`,
+        (error, results, fields) => {
+          if (error) return reject(error);
+          resolve(results);
+        }
+      );
+    });
   }
 };
