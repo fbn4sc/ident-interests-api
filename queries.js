@@ -10,14 +10,10 @@ const connection = mysql.createConnection({
 module.exports = {
   selectAllInterests: () => {
     return new Promise((resolve, reject) => {
-      connection.connect();
-
       connection.query("SELECT * FROM interest", (error, results, fields) => {
         if (error) return reject(error);
         resolve(results);
       });
-
-      connection.end();
     });
   }
 };
