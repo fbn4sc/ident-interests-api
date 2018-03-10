@@ -8,7 +8,9 @@ app.get("/", (req, res) => {
 });
 
 app.get("/interests", (req, res) => {
-  queries.selectAllInterests().then(data => {
+  const page = req.query.page || 0;
+
+  queries.selectAllInterests(page).then(data => {
     res.send(data);
   });
 });
