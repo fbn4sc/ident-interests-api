@@ -1,17 +1,5 @@
-const mysql = require("mysql");
+const queries = require("./queries");
 
-const connection = mysql.createConnection({
-  host: process.env.HOST,
-  user: process.env.USER,
-  password: process.env.PASSWORD,
-  database: "ident_fabio"
+queries.selectAllInterests().then(data => {
+  console.log(data.length);
 });
-
-connection.connect();
-
-connection.query("SELECT * FROM interest", (error, results, fields) => {
-  if (error) throw error;
-  console.log(results.length);
-});
-
-connection.end();
