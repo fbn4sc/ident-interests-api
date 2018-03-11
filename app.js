@@ -4,7 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
-  res.send("iDent Challenge API");
+  res.send("Interests API");
 });
 
 app.get("/interests", (req, res) => {
