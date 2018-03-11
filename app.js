@@ -8,19 +8,19 @@ app.get("/", (req, res) => {
 });
 
 app.get("/interests", (req, res) => {
-  const page = req.query.page || 0;
-
-  queries.selectAllInterests(page).then(data => {
-    res.send(data);
-  });
+  queries
+    .selectAllInterests(req.query.page, req.query.searchTerm)
+    .then(data => {
+      res.send(data);
+    });
 });
 
 app.get("/suggestions", (req, res) => {
-  const page = req.query.page || 0;
-
-  queries.selectAllSuggestions(page).then(data => {
-    res.send(data);
-  });
+  queries
+    .selectAllSuggestions(req.query.page, req.query.searchTerm)
+    .then(data => {
+      res.send(data);
+    });
 });
 
 app.listen(PORT, () => {
