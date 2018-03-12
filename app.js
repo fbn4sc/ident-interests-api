@@ -29,11 +29,12 @@ app.get("/suggestions", (req, res) => {
 });
 
 app.patch("/remap", (req, res) => {
+  const suggestionName = req.body.suggestionName;
   const suggestionId = req.body.suggestionId;
   const interestId = req.body.interestId;
 
   queries
-    .remap(suggestionId, interestId)
+    .remap(suggestionName, suggestionId, interestId)
     .then(data => {
       res.send(data);
     })

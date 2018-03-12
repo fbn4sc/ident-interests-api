@@ -40,20 +40,37 @@ module.exports = {
     });
   },
 
-  remap: (suggestionId, interestId) => {
-    const removeSuggestion = `DELETE FROM interest_suggestion WHERE ID = ${suggestionId}`;
-    const remap =
-      `UPDATE interest_user SET interestID = ${interestId},` +
-      `interestIsSuggestion = 0 ` +
-      `WHERE interestID = '${suggestionId}' AND interestIsSuggestion = 1`;
-
-    const query = `${removeSuggestion};${remap}`;
+  remap: (suggestionName, suggestionId, interestId) => {
+    let suggestionIds = [];
+    const getIds = `SELECT ID FROM interest_suggestion WHERE name LIKE '%${suggestionName}%'`;
 
     return new Promise((resolve, reject) => {
-      connection.query(query, (error, results, fields) => {
-        if (error) return reject(error);
-        resolve(results);
-      });
+      connection
+        .query(getIds)
+        .on("result", row => {
+          suggestionIds.push(row.ID);
+        })
+        .on("end", () => {
+          if (!suggestionIds.length) return resolve([]);
+
+          suggestionIds = suggestionIds.join(",");
+
+          const removeSuggestion =
+            `DELETE FROM interest_suggestion ` +
+            `WHERE ID IN (${suggestionIds})`;
+
+          const remap =
+            `UPDATE interest_user SET interestID = ${interestId}, ` +
+            `interestIsSuggestion = 0 ` +
+            `WHERE interestID IN (${suggestionIds}) AND interestIsSuggestion = 1`;
+
+          const query = `${removeSuggestion};${remap}`;
+
+          connection.query(query, (error, results, fields) => {
+            if (error) return reject(error);
+            resolve(results);
+          });
+        });
     });
   }
 };
