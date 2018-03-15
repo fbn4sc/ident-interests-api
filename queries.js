@@ -41,7 +41,7 @@ module.exports = {
     });
   },
 
-  remap: (suggestionName, suggestionId, interestId) => {
+  remap: (suggestionName, interestId) => {
     let suggestionIds = [];
     const getIds = `SELECT ID FROM interest_suggestion WHERE name LIKE '%${suggestionName}%'`;
 
