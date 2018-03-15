@@ -13,9 +13,10 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const rowsLimit = 30;
       const query = searchTerm
-        ? `SELECT * FROM interest WHERE name LIKE '%${searchTerm}%' OR abbr LIKE '%${searchTerm}%' LIMIT ${page *
+        ? `SELECT * FROM interest WHERE name LIKE '%${searchTerm}%' OR abbr LIKE '%${searchTerm}%' ORDER BY name ASC LIMIT ${page *
             rowsLimit}, ${rowsLimit}`
-        : `SELECT * FROM interest LIMIT ${page * rowsLimit}, ${rowsLimit}`;
+        : `SELECT * FROM interest ORDER BY name ASC LIMIT ${page *
+            rowsLimit}, ${rowsLimit}`;
 
       connection.query(query, (error, results, fields) => {
         if (error) return reject(error);
@@ -28,9 +29,9 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const rowsLimit = 30;
       const query = searchTerm
-        ? `SELECT * FROM interest_suggestion WHERE name LIKE '%${searchTerm}%' LIMIT ${page *
+        ? `SELECT * FROM interest_suggestion WHERE name LIKE '%${searchTerm}%' ORDER BY name ASC LIMIT ${page *
             rowsLimit}, ${rowsLimit}`
-        : `SELECT * FROM interest_suggestion LIMIT ${page *
+        : `SELECT * FROM interest_suggestion ORDER BY name ASC LIMIT ${page *
             rowsLimit}, ${rowsLimit}`;
 
       connection.query(query, (error, results, fields) => {
